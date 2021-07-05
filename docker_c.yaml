@@ -1,0 +1,22 @@
+version: "3"
+services:
+  postgres:
+    image: postgres
+    hostname: postgres
+    container_name: postgres
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      POSTGRES_PASSWORD: defilev
+      POSTGRES_USER: admin
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_DB: defi
+
+  adminer:
+    image: adminer
+    hostname: adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - 8080:8080
