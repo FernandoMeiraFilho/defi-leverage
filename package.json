@@ -22,6 +22,7 @@
   "devDependencies": {
     "@types/node": "^16.0.0",
     "nodemon": "^2.0.9",
+    "ts-node": "^10.0.0",
     "typescript": "^4.3.5"
   },
   "dependencies": {
@@ -30,5 +31,12 @@
     "@mikro-orm/migrations": "^4.5.7",
     "@mikro-orm/postgresql": "^4.5.7",
     "pg": "^8.6.0"
+  },
+  "mikro-orm": {
+    "useTsNode": true,
+    "configPaths": [
+      "./src/mikro-orm.config.ts",
+      "./dist/mikro-orm.config.js"
+    ]
   }
 }
