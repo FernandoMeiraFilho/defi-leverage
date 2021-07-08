@@ -7,4 +7,7 @@ export class Protocol {
 
   @Property()
   name!: string;
+
+  @Property()
+  last_updated_block!: number;
 }
