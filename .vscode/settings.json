@@ -1,6 +1,7 @@
 {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "python.pythonPath": "/Users/fernandomeira/anaconda3/bin/python",
   
 }
 
