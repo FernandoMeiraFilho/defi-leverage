@@ -8,6 +8,6 @@ export class Protocol {
   @Property()
   name!: string;
 
-  @Property()
+  @Property({ default: 0 })
   last_updated_block!: number;
 }
