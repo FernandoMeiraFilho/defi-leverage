@@ -1,4 +1,4 @@
-import { Entity, PrimaryKey, Property } from "@mikro-orm/core";
+import { BigIntType, Entity, PrimaryKey, Property } from "@mikro-orm/core";
 
 @Entity()
 export class Protocol {
@@ -8,6 +8,6 @@ export class Protocol {
   @Property()
   name!: string;
 
-  @Property({ default: 0 })
+  @Property({ default: 0, type: BigIntType })
   last_updated_block!: number;
 }
