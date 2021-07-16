@@ -9,8 +9,11 @@ export class Token {
   token_address!: string;
 
   @Property()
-  token_ECR_code!: string;
+  token_ERC_code!: string;
 
   @Property()
   token_code_on_protocol!: string;
+
+  @Property()
+  decimals!: number;
 }
