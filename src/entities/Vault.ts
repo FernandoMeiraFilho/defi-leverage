@@ -20,6 +20,9 @@ export class Vault {
   @ManyToOne()
   debt_token_id!: Token;
 
+  @Property()
+  vault_address!: string;
+
   @Property({ type: "date", onUpdate: () => new Date() })
   updatedAt = new Date();
 
