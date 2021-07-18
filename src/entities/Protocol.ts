@@ -10,4 +10,7 @@ export class Protocol {
 
   @Property({ default: 0, type: BigIntType })
   last_updated_block!: number;
+
+  @Property({ type: "date", onUpdate: () => new Date() })
+  updatedAt = new Date();
 }

@@ -7,4 +7,7 @@ export class User {
 
   @Property()
   user_address!: string;
+
+  @Property({ type: "date", onUpdate: () => new Date() })
+  updatedAt = new Date();
 }

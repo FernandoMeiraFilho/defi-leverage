@@ -16,4 +16,7 @@ export class Token {
 
   @Property()
   decimals!: number;
+
+  @Property({ type: "date", onUpdate: () => new Date() })
+  updatedAt = new Date();
 }
