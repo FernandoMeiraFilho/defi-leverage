@@ -19,4 +19,7 @@ export class Token {
 
   @Property({ type: "date", onUpdate: () => new Date() })
   updatedAt = new Date();
+
+  @Property({ default: 0 })
+  liquidation_ratio_maker!: number;
 }

@@ -1,9 +1,9 @@
 import { Migration } from '@mikro-orm/migrations';
 
-export class Migration20210718160119 extends Migration {
+export class Migration20210720030144 extends Migration {
 
   async up(): Promise<void> {
-    this.addSql('create table "token" ("token_id" serial primary key, "token_address" varchar(255) not null, "token_erc_code" varchar(255) not null, "token_code_on_protocol" varchar(255) not null, "decimals" int4 not null, "updated_at" timestamptz(0) not null);');
+    this.addSql('create table "token" ("token_id" serial primary key, "token_address" varchar(255) not null, "token_erc_code" varchar(255) not null, "token_code_on_protocol" varchar(255) not null, "decimals" int4 not null, "updated_at" timestamptz(0) not null, "liquidation_ratio_maker" int4 not null default 0);');
 
     this.addSql('create table "protocol" ("protocol_id" serial primary key, "name" varchar(255) not null, "last_updated_block" bigint not null default 0, "updated_at" timestamptz(0) not null);');
 
