@@ -20,6 +20,7 @@ export const getLogSet = async (blocknumber: number): Promise<any> => {
             handler
             collateralType {
               id
+              liquidationRatio
             }
             collateral
             debt
