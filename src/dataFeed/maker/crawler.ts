@@ -30,7 +30,7 @@ async function addNewUser(dbInstance: any, userAddress: string) {
   });
   await dbInstance.em.persistAndFlush(newUser);
   console.log(
-    chalk.magentaBright(`Added new user to database: ${userAddress}`)
+    chalk.magentaBright(`Added new USER to database: ${userAddress}`)
   );
   return newUser;
 }
@@ -51,9 +51,16 @@ async function addNewCollateral(
   );
   const tokenAddress = tokenQueryILK.gem;
 
-  const ERC20 = new ethers.Contract(tokenAddress, erc20ABI, provider);
-  const tokenCode = await ERC20.symbol();
-  const tokenDecimals = await ERC20.decimals();
+  let tokenCode: string;
+  let tokenDecimals: number;
+  if (tokenAddress !== "0x0000000000000000000000000000000000000000") {
+    const ERC20 = new ethers.Contract(tokenAddress, erc20ABI, provider);
+    tokenCode = await ERC20.symbol();
+    tokenDecimals = await ERC20.decimals();
+  } else {
+    tokenCode = tokenName;
+    tokenDecimals = 18;
+  }
 
   const newCollateral = await dbInstance.em.create(Token, {
     token_address: tokenAddress,
@@ -64,7 +71,7 @@ async function addNewCollateral(
   });
 
   await dbInstance.em.persistAndFlush(newCollateral);
-  console.log(chalk.magentaBright(`Added new token to database: ${tokenName}`));
+  console.log(chalk.magentaBright(`Added new TOKEN to database: ${tokenName}`));
   return newCollateral;
 }
 
@@ -116,12 +123,14 @@ export default async () => {
     //run query until query.data.length === 0
     const data = await getLogSet(Number(makerInstance.last_updated_block));
     console.log(data.length);
-    let blockLogs: any[] = [];
+
     if (data.length > 0) {
       // create new vaults objects
       let lastBlockChecked = Number(makerInstance.last_updated_block);
+      let blockLogs: any[] = [];
+      for (let vaultLog of data) {
+        blockLogs.push(vaultLog.block);
 
-      await _.forEach(data.slice(0, 1), async (vaultLog) => {
         const [storedVault, vaultDbCheck] = await dbEntryChecker(orm, Vault, {
           vault_address: vaultLog.vault.handler,
         });
@@ -171,7 +180,7 @@ export default async () => {
           });
           console.log(
             chalk.magentaBright(
-              `Added new vault to database, vault_address: ${vaultLog.vault.handler}`
+              `Added new VAULT to database, vault_address: ${vaultLog.vault.handler}`
             )
           );
         } else {
@@ -194,16 +203,12 @@ export default async () => {
         }
 
         await orm.em.persistAndFlush(finalVault);
-        lastBlockChecked = parseInt(vaultLog.block);
-        console.log(vaultLog.block);
-        console.log(`last block var is : ${lastBlockChecked}`);
-        blockLogs.push(vaultLog.block);
-      });
+      }
 
       //update lastUpdatedBlock on db
-      console.log(`last block var is : ${lastBlockChecked}`);
-      console.log(`last block ${blockLogs}`);
-      makerInstance.last_updated_block = lastBlockChecked;
+
+      console.log(`last block ${blockLogs.slice(-1)[0]}`);
+      makerInstance.last_updated_block = blockLogs.slice(-1)[0];
 
       await orm.em.persistAndFlush(makerInstance);
       console.log(
