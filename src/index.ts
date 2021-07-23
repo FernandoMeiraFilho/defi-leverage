@@ -18,10 +18,6 @@ const main = async () => {
   types.setTypeParser(1700, (str) => str);
   await orm.getMigrator().up();
 
-  //testing db
-  const testUser = orm.em.create(User, { user_address: "gilfoyle.eth" });
-  await orm.em.persistAndFlush(testUser);
-
   // adding protocols to initialize db
   const protocolToInitialize = ["makerDAO"];
   await _.forEach(protocolToInitialize, async (protocolName) => {
@@ -31,16 +27,6 @@ const main = async () => {
       await orm.em.persistAndFlush(protocolObj);
     }
   });
-
-  // //testing bigint type
-  // const testm = await orm.em.findOne(Protocol, { name: "makerDAO" });
-
-  //testing functions of maker crawler
-  // const [check] = await dbEntryChecker(orm, User, {
-  //   user_address: "0x72ba1965320ab5352fd6d68235cc3c5306a6ffa2",
-  // });
-
-  // console.log(check);
 
   //checking crawlers
   await crawlerRun();
