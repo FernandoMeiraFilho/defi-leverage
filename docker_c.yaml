@@ -11,7 +11,8 @@ services:
       POSTGRES_PASSWORD: defilev
       POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_DB: defi
-
+    volumes:
+      - pg-data:/var/lib/postgresql/data
   adminer:
     image: adminer
     hostname: adminer
@@ -19,3 +20,6 @@ services:
     restart: always
     ports:
       - 8080:8080
+volumes:
+  pg-data:
+    driver: local
