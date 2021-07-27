@@ -1,9 +1,12 @@
 import { gql } from "@apollo/client/core";
-import { makerGraphUrl } from "../../constants";
-import get_apollo_client from "../../apollo/client";
+// import { makerGraphUrl } from "../../constants";
+// import get_apollo_client from "../../apollo/client";
 
-export const getLogSet = async (blocknumber: number): Promise<any> => {
-  const client = await get_apollo_client(makerGraphUrl);
+export const getLogSet = async (
+  blocknumber: number,
+  client: any
+): Promise<any> => {
+  // const client = await get_apollo_client(makerGraphUrl);
 
   const query = await client.query({
     query: gql`

@@ -9,10 +9,11 @@ import { Token } from "../../entities/Token";
 import { Vault } from "../../entities/Vault";
 
 import { ethers } from "ethers";
-import { ilkRegistryAddress } from "../../constants";
+import { ilkRegistryAddress, makerGraphUrl } from "../../constants";
 import { provider } from "../../rpc_client/client";
 import ilkRegistryABI from "../../ethereum/ABIs/IlkRegistry.json";
 import erc20ABI from "../../ethereum/ABIs/ERC20.json";
+import get_apollo_client from "../../apollo/client";
 
 export async function dbEntryChecker(
   dbInstance: any,
@@ -113,15 +114,23 @@ export default async () => {
       name: "makerDAO",
     });
 
-    console.log("back on top");
-
     if (makerInstance === null) {
       console.log(chalk.red(`Couldn't find makerDAO on protocol table`));
       break;
     }
 
     //run query until query.data.length === 0
-    const data = await getLogSet(Number(makerInstance.last_updated_block));
+    const client = await get_apollo_client(makerGraphUrl);
+    let data;
+    try {
+      data = await getLogSet(Number(makerInstance.last_updated_block), client);
+      console.log(data);
+    } catch (error) {
+      console.log(`data content on error: ${data}`);
+      console.log(`error with the The Graph Query , error : ${error}`);
+    }
+
+    // const data = await getLogSet(Number(makerInstance.last_updated_block));
     console.log(data.length);
 
     if (data.length > 0) {
