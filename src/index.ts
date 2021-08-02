@@ -10,6 +10,7 @@ import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import { TokenResolver } from "./resolvers/token";
+import { ProtocolResolver } from "./resolvers/protocol";
 
 const main = async () => {
   const orm = await MikroORM.init(config);
@@ -21,7 +22,7 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [TokenResolver],
+      resolvers: [TokenResolver, ProtocolResolver],
       validate: false,
     }),
     context: () => ({ orm }),
