@@ -111,7 +111,7 @@ export default async () => {
 
   while (true) {
     const makerInstance = await orm.em.findOne(Protocol, {
-      name: "makerDAO",
+      name: "Maker",
     });
 
     if (makerInstance === null) {

@@ -36,7 +36,7 @@ const main = async () => {
   });
 
   // adding protocols to initialize db
-  const protocolToInitialize = ["makerDAO"];
+  const protocolToInitialize = ["Maker"];
   for (let protocolName of protocolToInitialize) {
     const protocolOnDb = await orm.em.findOne(Protocol, { name: protocolName });
     if (protocolOnDb === null) {
