@@ -5,7 +5,7 @@ import { MyContext } from "../types";
 @Resolver()
 export class ProtocolResolver {
   @Query(() => [Protocol])
-  protocols(@Ctx() { orm }: MyContext): Promise<Protocol[]> {
-    return orm.em.find(Protocol, {});
+  protocols(@Ctx() { em }: MyContext): Promise<Protocol[]> {
+    return em.find(Protocol, {});
   }
 }

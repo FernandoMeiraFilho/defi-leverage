@@ -5,7 +5,7 @@ import { MyContext } from "../types";
 @Resolver()
 export class TokenResolver {
   @Query(() => [Token])
-  tokens(@Ctx() { orm }: MyContext): Promise<Token[]> {
-    return orm.em.find(Token, {});
+  tokens(@Ctx() { em }: MyContext): Promise<Token[]> {
+    return em.find(Token, {});
   }
 }

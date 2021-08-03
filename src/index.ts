@@ -3,14 +3,23 @@ import { MikroORM } from "@mikro-orm/core";
 import { __prod__ } from "./constants";
 import config from "./mikro-orm.config";
 import { Protocol } from "./entities/Protocol";
-import crawlerRun from "./dataFeed/index";
+// import crawlerRun from "./dataFeed/index";
 import _ from "lodash";
 import { types } from "pg";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
-import { TokenResolver } from "./resolvers/token";
-import { ProtocolResolver } from "./resolvers/protocol";
+import { TokenResolver } from "./resolvers/tokens";
+import { ProtocolResolver } from "./resolvers/protocols";
+import { CollateralResolver } from "./resolvers/collaterals";
+
+// import {
+//   AbstractSqlConnection,
+//   AbstractSqlDriver,
+//   EntityManager,
+// } from "@mikro-orm/postgresql";
+
+// type EM = EntityManager<AbstractSqlDriver<AbstractSqlConnection>>;
 
 const main = async () => {
   const orm = await MikroORM.init(config);
@@ -22,10 +31,10 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [TokenResolver, ProtocolResolver],
+      resolvers: [TokenResolver, ProtocolResolver, CollateralResolver],
       validate: false,
     }),
-    context: () => ({ orm }),
+    context: () => ({ em: orm.em }),
   });
 
   await apolloServer.start();
@@ -45,8 +54,24 @@ const main = async () => {
     }
   }
 
+  // let test: EntityManager<AbstractSqlDriver<AbstractSqlConnection>>;
+  // test = ({orm.em});
+
+  // testing query
+  // const em: EM = orm.em;
+  // const testQuery = await em
+  //   .createQueryBuilder(Vault, "v")
+  //   .select([
+  //     "t.token_code_on_protocol",
+  //     "v.liquidation_price",
+  //     "sum(v.collateral_amount) as collateral_amount",
+  //   ])
+  //   .join("t.token_id", "t")
+  //   .groupBy(["t.token_code_on_protocol", "v.liquidation_price"])
+  //   .getQuery();
+
   //checking crawlers
-  await crawlerRun();
+  // await crawlerRun();
 };
 
 main();

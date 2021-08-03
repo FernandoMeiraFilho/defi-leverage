@@ -1,5 +1,10 @@
-import { Connection, IDatabaseDriver, MikroORM } from "@mikro-orm/core";
+// import { Connection, IDatabaseDriver, MikroORM } from "@mikro-orm/core";
+import {
+  AbstractSqlConnection,
+  AbstractSqlDriver,
+  EntityManager,
+} from "@mikro-orm/postgresql";
 
 export type MyContext = {
-  orm: MikroORM<IDatabaseDriver<Connection>>;
+  em: EntityManager<AbstractSqlDriver<AbstractSqlConnection>>;
 };
